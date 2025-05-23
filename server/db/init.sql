@@ -75,3 +75,138 @@ INSERT INTO colors (name) VALUES
   ('Röd'),
   ('Lila'),
   ('Silver');
+
+INSERT INTO products (
+  name, description, price,
+  category_id, color_id, image,
+  is_new, is_sale, favorite
+) VALUES
+(
+  'Doft pinnar',
+  'Våra exklusiva doftpinnar är designade för att förvandla ditt hem till en lugn oas av behaglig doft och harmoni. Tillverkade av premium naturliga rottingpinnar som effektivt absorberar och sprider doftoljor.
+
+  Antal pinnar per förpackning: 8 st
+  Kompatibel med alla standarddoftoljor',
+  159,
+  1,
+  1,
+  '/images/doftpinnar.webp',
+  TRUE, FALSE, FALSE
+),
+(
+  'Bordslampa Ray',
+  'Uppladdningsbar bordslampa med justerbart ljus. Den har tre ljuslägen och är dimbar via touch-funktion på lampans huvud. Laddas med USB-C (100 cm sladd ingår, adapter medföljer ej).
+
+  Batteritiden är 4–10 timmar
+  Fulladdad på 3 timmar',
+  399,
+  2,
+  3,
+  '/images/bordslampaRay.webp',
+  TRUE, FALSE, FALSE
+),
+(
+  'Påslakanset Vera',
+  'Påslakan i 100% ekologisk bomull. Påslakanet har en dold knappslå och kuddfodralen har en oxfordkant runt om.
+
+  Tvättråd: Maskintvätt 60°C
+  Trådtäthet 144 TC',
+  499,
+  3,
+  4,
+  '/images/påslakansetVera.webp',
+  TRUE, FALSE, FALSE
+),
+(
+  'Sculptur Bloom',
+  'Krom skulptur i form av en blomma. Skulpturen är en modern inredningsdetalj som passar såväl minimalistiska som mer klassiska hem. Varje exemplar är handgjord och kan därför variera något i form och färg.
+
+  Höjd: 20 cm
+  Diameter: 10 cm',
+  199,
+  4,
+  6,
+  '/images/sculpturBloom.webp',
+  FALSE, TRUE, FALSE
+),
+(
+  'Bordslampa Svamp',
+  'Uppladdningsbar bordslampa med justerbart ljus. Den har tre ljuslägen och är dimbar via touch-funktion på lampans huvud. Laddas med USB-C (100 cm sladd ingår, adapter medföljer ej).
+
+  Batteritiden är 4–10 timmar
+  Fulladdad på 3 timmar',
+  399,
+  2,
+  4,
+  '/images/bordslampaSvamp.webp',
+  FALSE, TRUE, FALSE
+),
+(
+  'Vas Elsa',
+  'Denna keramikvas är skapad med en modern geometrisk design. Den passar lika bra som en dekorativ detalj som för att arrangera blommor eller grenar.
+
+  Höjd: 20 cm
+  Diameter: 10 cm',
+  299,
+  5,
+  2,
+  '/images/vasElsa.webp',
+  TRUE, FALSE, FALSE
+),
+(
+  'Bordslampa Mona',
+  'Uppladdningsbar bordslampa med justerbart ljus. Den har tre ljuslägen och är dimbar via touch-funktion på lampans huvud. Laddas med USB-C (100 cm sladd ingår, adapter medföljer ej).
+
+  Batteritiden är 4–10 timmar
+  Fulladdad på 3 timmar',
+  379,
+  2,
+  4,
+  '/images/bordslampaMona.webp',
+  TRUE, FALSE, FALSE
+),
+(
+  'Doftljus',
+  'Våra doftljus är tillverkade av 100% sojavax och har en brinntid på 30 timmar. Doftljusen är handgjorda och kommer i en vacker glasburk med lock.
+
+  Vikt: 200 g',
+  59,
+  1,
+  2,
+  '/images/doftljus.webp',
+  FALSE, FALSE, FALSE
+),
+(
+  'Bordslampa Lina',
+  'Uppladdningsbar bordslampa med justerbart ljus. Den har tre ljuslägen och är dimbar via touch-funktion på lampans huvud. Laddas med USB-C (100 cm sladd ingår, adapter medföljer ej).
+
+  Batteritiden är 4–10 timmar
+  Fulladdad på 3 timmar',
+  399,
+  2,
+  5,
+  '/images/bordslampaLina.webp',
+  FALSE, FALSE, FALSE
+),
+(
+  'Tallriksset 3 st',
+  'Tallriksset i keramik bestående av tre tallrikar i olika storlekar. Tallrikarna är handgjorda Tallrikarna är handgjorda och kan därför variera något i form och färg.
+
+  Diameter: 20 cm, 25 cm, 30 cm',
+  399,
+  4,
+  6,
+  '/images/tallriksset.webp',
+  FALSE, FALSE, FALSE
+),
+(
+  'Doftljus 2 st',
+  'Våra doftljus är tillverkade av 100% sojavax och har en brinntid på 30 timmar. Doftljusen är handgjorda och kommer i en vacker glasburk med lock.
+
+  Vikt: 200 g',
+  189,
+  1,
+  2,
+  '/images/doftljus2st.webp',
+  FALSE, FALSE, FALSE
+),
