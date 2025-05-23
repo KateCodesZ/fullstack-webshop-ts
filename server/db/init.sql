@@ -54,3 +54,24 @@ CREATE TABLE order_items (
   quantity INT NOT NULL DEFAULT 1 CHECK (quantity > 0),
   price_at_order NUMERIC(10, 2) NOT NULL
 );
+
+INSERT INTO categories (name) VALUES
+  ('Ljus'),
+  ('Lampor'),
+  ('Textil'),
+  ('Keramik'),
+  ('Vaser');
+
+INSERT INTO colors (name) VALUES
+  ('Svart'),
+  ('Vit'),
+  ('Beige'),
+  ('Orange'),
+  ('Grön'),
+  ('Brun'),
+  ('Grå'),
+  ('Blå'),
+  ('Gul'),
+  ('Röd'),
+  ('Lila'),
+  ('Silver');
