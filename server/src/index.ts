@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import cors from 'cors';
 import express from 'express';
-import pool from './db';
+import pool from './db/db';
+import productRoutes from './routes/productRoutes';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const startServer = async () => {
 
     app.use(cors());
     app.use(express.json());
+    app.use('/products', productRoutes);
 
     app.get('/', (req, res) => {
       res.send('Server is running and connected to the database!');
