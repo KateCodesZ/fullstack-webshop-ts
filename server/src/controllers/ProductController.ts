@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import pool from '../db/db';
+import { Product } from '../types';
 
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const result = await pool.query('SELECT * FROM products');
+    const result = await pool.query<Product>('SELECT * FROM products');
     res.json(result.rows);
   } catch (err) {
     console.error('Error fetching products:', err);
