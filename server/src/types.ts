@@ -8,6 +8,12 @@ export interface User {
   updated_at: Date;
 }
 
+export interface JwtPayload {
+  id: number;
+  email: string;
+  is_admin: boolean;
+}
+
 // Category
 export interface Category {
   id: number;

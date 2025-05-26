@@ -5,17 +5,17 @@ import { User } from '../types';
 declare global {
   namespace Express {
     interface Request {
-      user?: {
-        id: number;
-        email: string;
-        is_admin: boolean;
-      };
+      user?: User;
     }
   }
 }
 
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
+
+  if (!process.env.JWT_SECRET) {
+    return res.status(500).json({ message: 'JWT secret not configured' });
+  }
 
   if (!authHeader?.startsWith('Bearer ')) {
     return res.status(401).json({ message: 'Missing or invalid authorization header' });
