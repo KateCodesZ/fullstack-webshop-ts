@@ -4,8 +4,8 @@ export interface User {
   email: string;
   password_hash: string;
   is_admin: boolean;
-  created_at: string;
-  updated_at: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 // Category
@@ -32,8 +32,8 @@ export interface Product {
   is_new: boolean;
   is_sale: boolean;
   favorite: boolean;
-  created_at: string;
-  updated_at: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 // Order
@@ -42,8 +42,8 @@ export interface Order {
   user_id: number;
   total: number;
   status: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
-  created_at: string;
-  updated_at: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 // OrderItem
@@ -53,5 +53,5 @@ export interface OrderItem {
   product_id: number;
   quantity: number;
   price_at_order: number;
-  created_at: string;
+  created_at: Date;
 }
