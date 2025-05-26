@@ -6,6 +6,7 @@ import { generateToken } from '../config/jwt';
 import { validationResult } from 'express-validator';
 
 interface AuthRequestBody {
+  name: string;
   email: string;
   password: string;
 }
@@ -17,7 +18,7 @@ export const registerUser = async (req: Request<{}, {}, AuthRequestBody>, res: R
     return;
   }
 
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     const { rows: [existingUser] } = await pool.query<User>(
@@ -32,10 +33,10 @@ export const registerUser = async (req: Request<{}, {}, AuthRequestBody>, res: R
 
     const hash = await bcrypt.hash(password, 12);
     const { rows: [user] } = await pool.query<User>(
-      `INSERT INTO users (email, password_hash)
-       VALUES ($1, $2)
+      `INSERT INTO users (name, email, password_hash)
+       VALUES ($1, $2, $3)
        RETURNING id, email, is_admin, created_at`,
-      [email.toLowerCase(), hash]
+      [name, email.toLowerCase(), hash]
     );
 
     const token = generateToken(user);
