@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import api from './api';
+import Navbar from './layout/Navbar';
 
 function App() {
   useEffect(() => {
@@ -14,7 +15,7 @@ function App() {
 
   return (
     <div>
-      Check!
+      <Navbar/>
     </div>
   );
 }
