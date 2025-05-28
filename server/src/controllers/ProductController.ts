@@ -11,3 +11,13 @@ export const getAllProducts = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const getNewProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query<Product>('SELECT * FROM products WHERE is_new = TRUE');
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching new products:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

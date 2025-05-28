@@ -4,6 +4,7 @@ import OfferBlock from '../components/OfferBlock';
 import Button from '../components/Button';
 import OfferImage from '../assets/images/offer glasses.jpg';
 import OfferRegImage from '../assets/images/offer reg.jpg';
+import NewItems from '../components/NewItems';
 
 const HomePage = () => {
   const handleOfferClick = () => {
@@ -36,6 +37,8 @@ const HomePage = () => {
           Se erbjudande
         </Button>
       </OfferBlock>
+
+      <NewItems/>
 
       {/* Offer block registration */}
       <OfferBlock
