@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import api from './api';
 import Navbar from './layout/Navbar';
+import Home from './pages/Home'
 
 function App() {
   useEffect(() => {
@@ -16,6 +17,7 @@ function App() {
   return (
     <div>
       <Navbar/>
+      <Home/>
     </div>
   );
 }
