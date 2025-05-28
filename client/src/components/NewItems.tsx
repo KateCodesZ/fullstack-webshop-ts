@@ -67,7 +67,7 @@ export default function NewItems() {
                 {product.name}
               </p>
               <p className="text-base font-medium text-gray-600">
-                {product.price} KR
+                {Number(product.price)} KR
               </p>
             </div>
           </div>
