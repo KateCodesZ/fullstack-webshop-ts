@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
+import ProductPrice from '../components/ProductPrice';
 
 interface Product {
   id: number;
@@ -147,7 +148,7 @@ export default function Shop() {
                   </div>
                   <div className="mt-4 flex flex-col gap-2">
                     <p className="text-base font-semibold text-gray-600 truncate">{product.name}</p>
-                    <p className="text-base font-medium text-gray-600">{Number(product.price)} KR</p>
+                    <ProductPrice price={product.price} isSale={product.is_sale} />
                   </div>
                 </div>
               ))}

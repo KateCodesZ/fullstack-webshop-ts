@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import ProductPrice from './ProductPrice';
 
 interface Product {
   id: number;
@@ -65,9 +66,7 @@ export default function SaleItems() {
               <p className="text-base font-semibold text-gray-600 truncate">
                 {product.name}
               </p>
-              <p className="text-base font-medium text-gray-600">
-                {Number(product.price)} KR
-              </p>
+              <ProductPrice price={parseFloat(product.price)} isSale={product.is_sale} />
             </div>
           </div>
         ))}
