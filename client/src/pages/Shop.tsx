@@ -25,7 +25,7 @@ export default function Shop() {
   // Fetch products and categories
   useEffect(() => {
     axios.get<Product[]>('/api/products').then(res => setProducts(res.data));
-    axios.get<Category[]>('/api/categories').then(res => setCategories(res.data));
+    axios.get<Category[]>('/api/products/categories').then(res => setCategories(res.data));
   }, []);
 
   // Filtered products
@@ -61,16 +61,19 @@ export default function Shop() {
           {/* Filters Sidebar */}
           <div className="w-full lg:w-64 flex-shrink-0">
 
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">Filter</h2>
+              <button
+                className="text-sm text-gray-600 hover:text-marianblue"
+                onClick={clearFilters}
+              >
+                Rensa filter
+              </button>
+            </div>
+
+            {/* Categories */}
             <div className="mb-8">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">Filter</h2>
-                <button
-                  className="text-sm text-gray-600 hover:text-marianblue"
-                  onClick={clearFilters}
-                >
-                  Rensa filter
-                </button>
-              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">Kategorier</h3>
               <div className="space-y-2">
                 {categories.map(category => (
                   <label key={category.id} className="flex items-center">
