@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import api from './api';
 import Navbar from './layout/Navbar';
-import Home from './pages/Home'
+import Home from './pages/Home';
+import Shop from './pages/Shop';
 import Footer from './layout/Footer';
 
 function App() {
@@ -17,9 +19,12 @@ function App() {
 
   return (
     <div>
-      <Navbar/>
-      <Home/>
-      <Footer/>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
