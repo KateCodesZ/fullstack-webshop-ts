@@ -1,0 +1,65 @@
+import { useEffect } from 'react';
+
+interface MenuProps {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}
+
+const Menu = ({ isOpen, setIsOpen }: MenuProps) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* Background dimming */}
+      <div
+        className={`fixed inset-0 z-[998] bg-black/50 transition-opacity duration-300 ${
+          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={() => setIsOpen(false)}
+      />
+
+      {/* Menu */}
+      <aside
+        className={`fixed top-0 left-0 z-[999] h-screen w-[85%] bg-floralwhite shadow-lg transition-transform duration-400 p-5 overflow-y-auto ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:w-[350px]`}
+      >
+        <div className="border-b border-gray-200 pb-4 mb-5 flex justify-between items-center">
+          <h1 className="text-2xl font-bold mb-2 md:text-3xl">MENY</h1>
+          <button
+            className="border border-gray-800 px-4 py-2 text-base transition-colors hover:bg-gray-100"
+            onClick={() => setIsOpen(false)}
+          >
+            Stäng
+          </button>
+        </div>
+
+        <nav>
+          <ul className="space-y-0">
+            {['Sortiment', 'Nyheter', 'Sänkt pris', 'Villkor', 'Hitta butik'].map((item) => (
+              <li key={item}>
+                <a
+                  href="#"
+                  className="block py-4 text-lg border-b border-gray-100 transition-colors hover:bg-gray-50 md:text-xl"
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    </>
+  );
+};
+
+export default Menu;
