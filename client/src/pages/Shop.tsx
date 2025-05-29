@@ -103,6 +103,7 @@ export default function Shop() {
                   <input
                     type="number"
                     placeholder="Min"
+                    min={0}
                     value={priceRange.min}
                     onChange={e => setPriceRange(pr => ({ ...pr, min: e.target.value }))}
                     className="w-24 p-2 border rounded"
@@ -110,6 +111,7 @@ export default function Shop() {
                   <span>-</span>
                   <input
                     type="number"
+                    min={0}
                     placeholder="Max"
                     value={priceRange.max}
                     onChange={e => setPriceRange(pr => ({ ...pr, max: e.target.value }))}
