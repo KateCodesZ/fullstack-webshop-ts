@@ -6,6 +6,8 @@ import type { LoginFormValues, RegisterFormValues } from '../types/authTypes';
 import { useAuth } from '../context/useAuth';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
+import EyeIcon from '../assets/icons/Eye.svg?react';
+import EyeOffIcon from '../assets/icons/EyeOff.svg?react';
 
 // Validation schemas
 const LoginSchema = Yup.object().shape({
@@ -32,6 +34,7 @@ const AuthPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { login: loginContext } = useAuth();
   const navigate = useNavigate();
 
@@ -133,16 +136,25 @@ const AuthPage = () => {
                   />
                 </div>
 
-                <div>
+                <div className="relative">
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                     Lösenord
                   </label>
                   <Field
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg"
                   />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    className="absolute right-3 top-2/3 -translate-y-2/3 text-marianblue text-lg focus:outline-none cursor-pointer"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? 'Dölj lösenord' : 'Visa lösenord'}
+                  >
+                    {showPassword ? <EyeOffIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
+                  </button>
                   <ErrorMessage
                     name="password"
                     component="div"
@@ -188,7 +200,7 @@ const AuthPage = () => {
                   />
                 </div>
 
-                <div>
+                <div className="relative">
                   <div className="flex justify-between mb-1">
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                       Lösenord
@@ -199,10 +211,19 @@ const AuthPage = () => {
                   </div>
                   <Field
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="••••••••"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg"
                   />
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    className="absolute right-3 top-2/3 -translate-y-2/3 text-marianblue text-lg focus:outline-none cursor-pointer"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? 'Dölj lösenord' : 'Visa lösenord'}
+                  >
+                    {showPassword ? <EyeOffIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
+                  </button>
                   <ErrorMessage
                     name="password"
                     component="div"
