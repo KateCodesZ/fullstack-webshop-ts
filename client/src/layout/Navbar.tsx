@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { memo, useMemo, useState } from 'react';
 import MenuIcon from '../assets/icons/Menu.svg?react';
 import HeartIcon from '../assets/icons/Heart.svg?react';
@@ -8,10 +8,13 @@ import Logo from '../assets/icons/Logo.svg?react';
 import Logo2 from '../assets/icons/Logo2.svg?react';
 import SearchIcon from '../assets/icons/Search.svg?react';
 import Menu from './Menu';
+import { useAuth } from '../context/useAuth';
 
 // Using React 19+ compiler optimizations (when available)
 const Navbar = memo(() => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   // Using React 19+ cache() for memoization when available
   const navLinkClass = useMemo(
@@ -64,13 +67,25 @@ const Navbar = memo(() => {
               >
                 <HeartIcon className="w-7 h-7 p-1" />
               </NavLink>
-              <NavLink
-                to="/login"
-                aria-label="Logga in"
-                className={navLinkClass}
-              >
-                <UserIcon className="w-7 h-7 p-1" />
-              </NavLink>
+              {user ? (
+                <button
+                  onClick={() => { logout(); navigate('/'); }}
+                  className={navLinkClass({ isActive: false })}
+                  aria-label="Logga ut"
+                >
+                  <UserIcon className="w-7 h-7 p-1" />
+                  <span className="sr-only md:not-sr-only">Logga ut</span>
+                </button>
+              ) : (
+                <NavLink
+                  to="/auth"
+                  aria-label="Logga in"
+                  className={navLinkClass}
+                >
+                  <UserIcon className="w-7 h-7 p-1" />
+                  <span className="sr-only md:not-sr-only">Logga in</span>
+                </NavLink>
+              )}
               <NavLink
                 to="/cart"
                 aria-label="Varukorg"
@@ -122,13 +137,24 @@ const Navbar = memo(() => {
                 <HeartIcon className="w-6 h-6 mr-2" />
                 <span className="sr-only md:not-sr-only">Favoriter</span>
               </NavLink>
-              <NavLink
-                to="/login"
-                className={navLinkClass}
-              >
-                <UserIcon className="w-6 h-6 mr-2" />
-                <span className="sr-only md:not-sr-only">Logga in</span>
-              </NavLink>
+              {user ? (
+                <button
+                  onClick={() => { logout(); navigate('/'); }}
+                  className={navLinkClass({ isActive: false })}
+                  aria-label="Logga ut"
+                >
+                  <UserIcon className="w-6 h-6 mr-2" />
+                  <span className="sr-only md:not-sr-only">Logga ut</span>
+                </button>
+              ) : (
+                <NavLink
+                  to="/auth"
+                  className={navLinkClass}
+                >
+                  <UserIcon className="w-6 h-6 mr-2" />
+                  <span className="sr-only md:not-sr-only">Logga in</span>
+                </NavLink>
+              )}
               <NavLink
                 to="/cart"
                 className={navLinkClass}

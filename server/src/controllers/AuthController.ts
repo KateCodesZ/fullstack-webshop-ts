@@ -72,7 +72,7 @@ export const loginUser = async (req: Request<{}, {}, AuthRequestBody>, res: Resp
     );
 
     if (!user) {
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ message: 'Fel e-post eller lösenord' });
       return;
     }
 
@@ -83,7 +83,7 @@ export const loginUser = async (req: Request<{}, {}, AuthRequestBody>, res: Resp
 
     const isValid = await bcrypt.compare(password, user.password_hash);
     if (!isValid) {
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ message: 'Fel e-post eller lösenord' });
       return;
     }
 
