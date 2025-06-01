@@ -12,6 +12,7 @@ interface Product {
   category_id: number;
   is_new: boolean;
   is_sale: boolean;
+  color_id?: number;
 }
 
 interface Category {
@@ -19,16 +20,25 @@ interface Category {
   name: string;
 }
 
+interface Color {
+  id: number;
+  name: string;
+  hex: string;
+}
+
 export default function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [colors, setColors] = useState<Color[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [selectedColors, setSelectedColors] = useState<number[]>([]);
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
 
-  // Fetch products and categories
+  // Fetch products, categories, and colors
   useEffect(() => {
     axios.get<Product[]>('/api/products').then(res => setProducts(res.data));
     axios.get<Category[]>('/api/products/categories').then(res => setCategories(res.data));
+    axios.get<Color[]>('/api/products/colors').then(res => setColors(res.data));
   }, []);
 
   // Filtered products
@@ -36,16 +46,19 @@ export default function Shop() {
     return products.filter(product => {
       const matchesCategory =
         selectedCategories.length === 0 || selectedCategories.includes(product.category_id);
+      const matchesColor =
+        selectedColors.length === 0 || (product.color_id !== undefined && selectedColors.includes(product.color_id));
       const matchesPrice =
         (!priceRange.min || product.price >= Number(priceRange.min)) &&
         (!priceRange.max || product.price <= Number(priceRange.max));
-      return matchesCategory && matchesPrice;
+      return matchesCategory && matchesColor && matchesPrice;
     });
-  }, [products, selectedCategories, priceRange]);
+  }, [products, selectedCategories, selectedColors, priceRange]);
 
   // Clear filters
   const clearFilters = () => {
     setSelectedCategories([]);
+    setSelectedColors([]);
     setPriceRange({ min: '', max: '' });
   };
 
@@ -56,9 +69,9 @@ export default function Shop() {
           {/* Filters Sidebar */}
           <div className="w-full lg:w-64 flex-shrink-0">
             <div className="flex justify-between items-center mb-6 md:mt-24">
-              <h2 className="text-xl font-semibold text-gray-800">Filter</h2>
+              <h2 className="text-xl font-semibold text-marianblue">Filter</h2>
               <button
-                className="text-sm text-gray-600 hover:text-marianblue"
+                className="text-sm text-gray-700 hover:text-marianblue"
                 onClick={clearFilters}
               >
                 Rensa filter
@@ -67,10 +80,10 @@ export default function Shop() {
 
             {/* Categories */}
             <div className="mb-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Kategorier</h3>
+              <h3 className="text-xl font-semibold text-marianblue mb-4">Kategorier</h3>
               <div className="space-y-2">
                 {categories.map(category => (
-                  <label key={category.id} className="flex items-center">
+                  <label key={category.id} className="flex items-center text-gray-700">
                     <input
                       type="checkbox"
                       checked={selectedCategories.includes(category.id)}
@@ -81,7 +94,7 @@ export default function Shop() {
                             : prev.filter(id => id !== category.id)
                         );
                       }}
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
                     />
                     {category.name}
                   </label>
@@ -91,7 +104,7 @@ export default function Shop() {
 
             {/* Price Range */}
             <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Pris</h2>
+              <h2 className="text-xl font-semibold text-marianblue mb-4">Pris</h2>
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <input
@@ -112,6 +125,35 @@ export default function Shop() {
                     className="w-24 p-2 border rounded"
                   />
                 </div>
+              </div>
+            </div>
+
+            {/* Color Filter */}
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-marianblue mb-4">Färg</h3>
+              <div className="flex flex-col gap-2">
+                {colors.map(color => (
+                  <label key={color.id} className="flex items-center cursor-pointer gap-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedColors.includes(color.id)}
+                      onChange={e => {
+                        setSelectedColors(prev =>
+                          e.target.checked
+                            ? [...prev, color.id]
+                            : prev.filter(id => id !== color.id)
+                        );
+                      }}
+                      className="hidden"
+                    />
+                    <span
+                      className={`w-5 h-5 border-1 border-gray-600 rounded-sm flex items-center justify-center transition-all duration-200 ${selectedColors.includes(color.id) ? 'ring-2 ring-mahogany border-mahogany' : ''}`}
+                      style={{ backgroundColor: color.hex }}
+                      title={color.name}>
+                    </span>
+                    <span className="text-gray-700 text-md">{color.name}</span>
+                  </label>
+                ))}
               </div>
             </div>
           </div>

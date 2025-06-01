@@ -14,6 +14,14 @@ router.get('/categories', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch categories' });
   }
 });
+router.get('/colors', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT id, name, hex FROM colors');
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch colors' });
+  }
+});
 router.get('/:id', async (req, res) => {
   try {
     await getProductById(req, res);
