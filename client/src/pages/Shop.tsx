@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ProductPrice from '../components/ProductPrice';
+import PageHeading from '../components/PageHeading';
 
 interface Product {
   id: number;
@@ -49,21 +50,12 @@ export default function Shop() {
   };
 
   return (
-    <div className="py-12">
-      <div className="max-w-screen-xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-montserrat-alt text-marianblue font-semibold">
-            Alla produkter
-          </h1>
-          <p className="text-base text-gray-600 mt-2">Hem &gt; Shop</p>
-        </div>
-
+    <div className="py-4">
+      <div className="max-w-screen-xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <div className="w-full lg:w-64 flex-shrink-0">
-
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-6 md:mt-24">
               <h2 className="text-xl font-semibold text-gray-800">Filter</h2>
               <button
                 className="text-sm text-gray-600 hover:text-marianblue"
@@ -124,8 +116,12 @@ export default function Shop() {
             </div>
           </div>
 
-          {/* Products Grid */}
+          {/* Main Content */}
           <div className="flex-1">
+            {/* Header */}
+            <div className="mb-6">
+              <PageHeading title="Alla produkter" breadcrumbs={[{ name: 'Produkter', path: '/shop' }]} />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProducts.map(product => (
                 <Link

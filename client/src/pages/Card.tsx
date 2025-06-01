@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Button from '../components/Button';
+import PageHeading from '../components/PageHeading';
 
 interface Product {
   id: number;
@@ -13,106 +14,124 @@ interface Product {
   category_id: number;
 }
 
+interface Category {
+  id: number;
+  name: string;
+}
+
 export default function ProductCard() {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
+  const [categoryName, setCategoryName] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    async function fetchProduct() {
+    async function fetchProductAndCategory() {
       setLoading(true);
       try {
         const res = await axios.get(`/api/products/${id}`);
         setProduct(res.data);
+        // Fetch all categories and find the matching one
+        const catRes = await axios.get('/api/products/categories');
+        const category = catRes.data.find((cat: Category) => cat.id === res.data.category_id);
+        setCategoryName(category ? category.name : "");
       } catch {
         setError("Kunde inte hämta produkt.");
       } finally {
         setLoading(false);
       }
     }
-    fetchProduct();
+    fetchProductAndCategory();
   }, [id]);
 
   const increment = () => setQuantity(q => q + 1);
   const decrement = () => setQuantity(q => (q > 1 ? q - 1 : 1));
 
   if (loading) return <div className="text-center py-12">Laddar...</div>;
-  if (error || !product) return <div className="text-center py-12 text-red-500">{error || "Produkt hittades inte."}</div>;
+  if (error || !product) return (
+    <div className="text-center py-12 text-red-500">{error || "Produkt hittades inte."}</div>
+  );
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="max-w-6xl w-full bg-white rounded-xl overflow-hidden">
-        <div className="lg:flex gap-8 p-6 md:p-10">
-          {/* Product Image */}
-          <div className="w-full lg:w-1/3 flex justify-center items-center">
-            <img
-              src={product.image}
-              alt={product.name}
-              className=" w-full h-full object-cover"
+    <>
+      <div className="min-h-screen flex justify-center items-start px-6">
+        <div className="max-w-6xl w-full bg-white overflow-hidden">
+          <div className="pt-4 md:pl-10">
+            <PageHeading
+              title=""
+              breadcrumbs={[
+                { name: "Shop", path: "/shop" },
+                ...(categoryName ? [{ name: categoryName, path: `/shop?category=${product?.category_id}` }] : []),
+                ...(product ? [{ name: product.name, path: `/card/${product.id}` }] : []),
+              ]}
             />
           </div>
-
-          {/* Product Details */}
-          <div className="mt-6 lg:mt-0 flex-1">
-            <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-                {product.name}
-              </h1>
-              <p className="text-2xl font-bold text-gray-900">
-                {product.price} kr
-              </p>
+          <div className="lg:flex gap-8 pb-4 md:p-10">
+            {/* Product Image */}
+            <div className="w-full lg:w-1/3 flex justify-center items-center">
+              <img
+                src={product.image}
+                alt={product.name}
+                className=" w-full h-full object-cover"
+              />
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 gap-4">
-              <p className="text-base text-gray-600">
-                Färg: {product.color_id} | Kategori: {product.category_id}
-              </p>
-            </div>
+            {/* Product Details */}
+            <div className="mt-6 lg:mt-0 flex-1">
+              <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                <h1 className="text-3xl md:text-4xl font-bold text-marianblue">
+                  {product.name}
+                </h1>
+                <p className="text-2xl font-bold text-marianblue">
+                  {Number(product.price)} KR
+                </p>
+              </div>
 
-            <p className="mt-8 text-gray-600 leading-relaxed">
-              {product.description}
-            </p>
-
-            <div className="mt-8">
-              <p className="text-base font-medium text-gray-600">
-                Antal
+              <p className="mt-8 text-gray-600 leading-relaxed">
+                {product.description}
               </p>
-              <div className="flex items-center border border-gray-300 rounded-lg w-20 h-10 mt-2">
-                <button
-                  onClick={decrement}
-                  className="flex-1 flex justify-center items-center outline-none"
-                  aria-label="Minska antal"
-                >
-                  <DecrementIcon />
-                </button>
-                <span className="text-base text-gray-800 w-8 text-center">
-                  {quantity}
-                </span>
-                <button
-                  onClick={increment}
-                  className="flex-1 flex justify-center items-center outline-none"
-                  aria-label="Öka antal"
-                >
-                  <IncrementIcon />
+
+              <div className="mt-8">
+                <p className="text-base font-medium text-gray-600">
+                  Antal
+                </p>
+                <div className="flex items-center border border-gray-300 rounded-lg w-20 h-10 mt-2">
+                  <button
+                    onClick={decrement}
+                    className="flex-1 flex justify-center items-center outline-none"
+                    aria-label="Minska antal"
+                  >
+                    <DecrementIcon />
+                  </button>
+                  <span className="text-base text-gray-800 w-8 text-center">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={increment}
+                    className="flex-1 flex justify-center items-center outline-none"
+                    aria-label="Öka antal"
+                  >
+                    <IncrementIcon />
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                <Button className="flex-1" type="button">
+                  Lägg i varukorg
+                </Button>
+                <button className="border border-gray-600 text-gray-800 font-medium py-4 px-8 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300 hover:bg-gray-50 flex-1">
+                  <HeartIcon />
+                  Önskelista
                 </button>
               </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <Button className="flex-1" type="button">
-                Lägg i varukorg
-              </Button>
-              <button className="border border-gray-600 text-gray-800 font-medium py-4 px-8 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300 hover:bg-gray-50 flex-1">
-                <HeartIcon />
-                Önskelista
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
