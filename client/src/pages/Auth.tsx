@@ -256,7 +256,7 @@ const AuthPage = () => {
             }}
             className="mt-2 text-marianblue font-medium hover:text-mahogany transition-colors cursor-pointer"
           >
-            {isRegistering ? 'Logga in istället' : 'Skapa konto istället'}
+            {isRegistering ? 'Logga in' : 'Skapa konto'}
           </button>
         </div>
       </div>
