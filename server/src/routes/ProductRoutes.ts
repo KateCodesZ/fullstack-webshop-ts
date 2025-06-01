@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { getAllProducts, getNewProducts, getSaleProducts } from '../controllers/ProductController';
+import { Router, Request, Response } from 'express';
+import { getAllProducts, getNewProducts, getSaleProducts, getProductById } from '../controllers/ProductController';
 import pool from '../db/db';
 
 const router = Router();
@@ -12,6 +12,13 @@ router.get('/categories', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch categories' });
+  }
+});
+router.get('/:id', async (req, res) => {
+  try {
+    await getProductById(req, res);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import ProductPrice from '../components/ProductPrice';
 
 interface Product {
@@ -127,7 +128,11 @@ export default function Shop() {
           <div className="flex-1">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProducts.map(product => (
-                <div key={product.id} className="flex flex-col">
+                <Link
+                  to={`/card/${product.id}`}
+                  key={product.id}
+                  className="flex flex-col hover:shadow-lg transition-shadow duration-200 rounded-lg overflow-hidden"
+                >
                   {/* Image container with 4:5 ratio */}
                   <div className="relative w-full pb-[125%]">
                     <img
@@ -150,7 +155,7 @@ export default function Shop() {
                     <p className="text-base font-semibold text-gray-600 truncate">{product.name}</p>
                     <ProductPrice price={product.price} isSale={product.is_sale} />
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

@@ -41,15 +41,15 @@ export default function ProductCard() {
   if (error || !product) return <div className="text-center py-12 text-red-500">{error || "Produkt hittades inte."}</div>;
 
   return (
-    <div className="bg-gray-50 min-h-screen flex items-center justify-center p-4">
-      <div className="max-w-6xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="max-w-6xl w-full bg-white rounded-xl overflow-hidden">
         <div className="lg:flex gap-8 p-6 md:p-10">
           {/* Product Image */}
-          <div className="flex-shrink-0 lg:w-1/2 flex justify-center">
+          <div className="w-full lg:w-1/3 flex justify-center items-center">
             <img
               src={product.image}
               alt={product.name}
-              className="rounded-lg object-contain max-h-96 w-full"
+              className="rounded-lg w-full h-full object-cover"
             />
           </div>
 
