@@ -8,6 +8,7 @@ interface Product {
   price: string;
   image: string;
   is_sale: boolean;
+  discount_price?: number;
 }
 
 export default function SaleItems() {
@@ -66,7 +67,7 @@ export default function SaleItems() {
               <p className="text-base font-semibold text-gray-600 truncate">
                 {product.name}
               </p>
-              <ProductPrice price={parseFloat(product.price)} isSale={product.is_sale} />
+              <ProductPrice price={parseFloat(product.price)} isSale={product.is_sale} discountPrice={product.discount_price} />
             </div>
           </div>
         ))}

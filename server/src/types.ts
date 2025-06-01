@@ -32,6 +32,7 @@ export interface Product {
   name: string;
   description: string | null;
   price: number;
+  discount_price?: number | null;
   category_id: number;
   color_id: number;
   image: string | null;

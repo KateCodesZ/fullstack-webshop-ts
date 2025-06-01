@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Button from '../components/Button';
 import PageHeading from '../components/PageHeading';
+import ProductPrice from '../components/ProductPrice';
 
 interface Product {
   id: number;
@@ -12,6 +13,8 @@ interface Product {
   description: string;
   color_id: number;
   category_id: number;
+  is_sale?: boolean;
+  discount_price?: number;
 }
 
 interface Category {
@@ -84,9 +87,9 @@ export default function ProductCard() {
                 <h1 className="text-3xl md:text-4xl font-bold text-marianblue">
                   {product.name}
                 </h1>
-                <p className="text-2xl font-bold text-marianblue">
-                  {Number(product.price)} KR
-                </p>
+                <div>
+                  <ProductPrice price={product.price} isSale={product.is_sale} discountPrice={product.discount_price} />
+                </div>
               </div>
 
               <p className="mt-8 text-gray-600 leading-relaxed">
