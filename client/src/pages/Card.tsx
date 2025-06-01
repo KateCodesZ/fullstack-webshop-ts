@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Button from '../components/Button';
 
 interface Product {
   id: number;
@@ -49,7 +50,7 @@ export default function ProductCard() {
             <img
               src={product.image}
               alt={product.name}
-              className="rounded-lg w-full h-full object-cover"
+              className=" w-full h-full object-cover"
             />
           </div>
 
@@ -100,9 +101,9 @@ export default function ProductCard() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <button className="bg-gray-900 hover:bg-gray-800 text-white font-medium py-4 px-8 rounded-lg transition-colors duration-300 flex-1">
+              <Button className="flex-1" type="button">
                 Lägg i varukorg
-              </button>
+              </Button>
               <button className="border border-gray-600 text-gray-800 font-medium py-4 px-8 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300 hover:bg-gray-50 flex-1">
                 <HeartIcon />
                 Önskelista

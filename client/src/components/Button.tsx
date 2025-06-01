@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`inline-block rounded-sm bg-marianblue text-white px-8 py-3 text-lg font-medium transition hover:scale-110 hover:bg-mahogany hover:shadow-xl focus:ring-3 focus:outline-hidden cursor-pointer ${
+      className={`inline-block rounded-sm bg-marianblue text-white px-8 py-3 text-lg font-medium transition hover:scale-105 hover:bg-mahogany hover:shadow-xl focus:ring-3 focus:outline-hidden cursor-pointer ${
         disabled ? 'opacity-70 cursor-not-allowed' : ''
       } ${className}`}
       disabled={disabled}

@@ -131,7 +131,7 @@ export default function Shop() {
                 <Link
                   to={`/card/${product.id}`}
                   key={product.id}
-                  className="flex flex-col hover:shadow-lg transition-shadow duration-200 rounded-lg overflow-hidden"
+                  className="flex flex-col overflow-hidden"
                 >
                   {/* Image container with 4:5 ratio */}
                   <div className="relative w-full pb-[125%]">
