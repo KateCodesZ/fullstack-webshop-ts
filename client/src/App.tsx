@@ -8,11 +8,13 @@ import Card from './pages/Card';
 import Cart from './pages/Cart';
 import MinaSidor from './pages/MyPages';
 import { useState } from 'react';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
   return (
     <div>
+      <ScrollToTop />
       <Navbar onCartClick={() => setCartOpen(true)} />
       <Cart isOpen={cartOpen} onClose={() => setCartOpen(false)} />
       <Routes>
