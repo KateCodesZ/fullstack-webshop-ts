@@ -68,7 +68,7 @@ const Footer = () => {
 
         {/* Logo and copyright */}
         <div className="flex flex-col items-center justify-center pt-1 sm:pt-12">
-          <LogoIcon className="h-[10vh] md:h-[25vh] w-auto invert" />
+          <LogoIcon className=" text-floralwhite fill-floralwhite h-[10vh] md:h-[25vh] w-auto" />
           <p className="text-sm text-floralwhite/80 mt-4">© 2025 All rights reserved</p>
         </div>
       </div>

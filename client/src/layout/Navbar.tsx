@@ -56,7 +56,7 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
               </NavLink>
             </div>
             <Link to="/" aria-label="Hem">
-              <Logo2 className="h-10 w-auto" />
+              <Logo2 className="h-10 w-auto text-marianblue fill-marianblue" />
             </Link>
             <div className="flex items-center gap-2">
               <NavLink
@@ -126,7 +126,7 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
               aria-label="Hem"
               className="text-2xl font-display"
             >
-              <Logo className="h-12 w-auto" />
+              <Logo className="h-12 w-auto text-marianblue fill-marianblue" />
             </Link>
             <div className="flex items-center gap-8">
               <NavLink
