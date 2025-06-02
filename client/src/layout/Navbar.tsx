@@ -9,12 +9,15 @@ import Logo2 from '../assets/icons/Logo2.svg?react';
 import SearchIcon from '../assets/icons/Search.svg?react';
 import Menu from './Menu';
 import { useAuth } from '../context/useAuth';
+import { useCart } from '../hooks/useCart';
 
 // Using React 19+ compiler optimizations (when available)
 const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { cart } = useCart();
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   // Using React 19+ cache() for memoization when available
   const navLinkClass = useMemo(
@@ -85,11 +88,16 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
               )}
               <button
                 aria-label="Varukorg"
-                className={navLinkClass({ isActive: false })}
+                className={navLinkClass({ isActive: false }) + ' relative'}
                 onClick={onCartClick}
                 type="button"
               >
                 <CartIcon className="w-7 h-7 p-1" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-marianblue text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                    {cartCount}
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -150,12 +158,19 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                 </NavLink>
               )}
               <button
-                className={navLinkClass({ isActive: false })}
+                className={navLinkClass({ isActive: false }) + ' relative'}
                 aria-label="Varukorg"
                 onClick={onCartClick}
                 type="button"
               >
-                <CartIcon className="w-6 h-6 mr-2" />
+                <span className="relative">
+                  <CartIcon className="w-6 h-6 mr-2" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-0.5 bg-marianblue text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold border-2 border-white">
+                      {cartCount}
+                    </span>
+                  )}
+                </span>
                 <span className="sr-only md:not-sr-only">Varukorg</span>
               </button>
             </div>
