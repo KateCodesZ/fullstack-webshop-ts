@@ -18,9 +18,3 @@ body {
   line-height: 1.2;
   @apply tracking-wide;
 }
-
-body.modal-open {
-  position: fixed;
-  width: 100vw;
-  overflow-y: scroll;
-}

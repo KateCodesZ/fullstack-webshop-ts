@@ -11,7 +11,7 @@ import Menu from './Menu';
 import { useAuth } from '../context/useAuth';
 
 // Using React 19+ compiler optimizations (when available)
-const Navbar = memo(() => {
+const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -28,7 +28,6 @@ const Navbar = memo(() => {
     <>
       {/* The menu is always in the DOM, controlled via menuOpen */}
       <Menu isOpen={menuOpen} setIsOpen={setMenuOpen} />
-
       <header
         className="max-w-screen xl:px-10 mx-auto sticky top-0 z-50 bg-white border-b border-gray-300 supports-[backdrop-filter]:backdrop-blur-lg"
         role="banner"
@@ -54,12 +53,10 @@ const Navbar = memo(() => {
                 <SearchIcon className="w-7 h-7 p-1" />
               </NavLink>
             </div>
-
             <Link to="/" aria-label="Hem">
               <Logo2 className="h-10 w-auto" />
             </Link>
-
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <NavLink
                 to="/favorites"
                 aria-label="Favoriter"
@@ -86,16 +83,16 @@ const Navbar = memo(() => {
                   <span className="sr-only md:not-sr-only">Logga in</span>
                 </NavLink>
               )}
-              <NavLink
-                to="/cart"
+              <button
                 aria-label="Varukorg"
-                className={navLinkClass}
+                className={navLinkClass({ isActive: false })}
+                onClick={onCartClick}
+                type="button"
               >
                 <CartIcon className="w-7 h-7 p-1" />
-              </NavLink>
+              </button>
             </div>
           </div>
-
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center justify-between container mx-auto h-16">
             <div className="flex items-center gap-8">
@@ -109,7 +106,6 @@ const Navbar = memo(() => {
                 <MenuIcon className="w-6 h-6 mr-2" />
                 <span className="cursor-pointer sr-only md:not-sr-only">Menu</span>
               </button>
-
               <form role="search" className="relative">
                 <input
                   type="search"
@@ -120,7 +116,6 @@ const Navbar = memo(() => {
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
               </form>
             </div>
-
             <Link
               to="/"
               aria-label="Hem"
@@ -128,7 +123,6 @@ const Navbar = memo(() => {
             >
               <Logo className="h-12 w-auto" />
             </Link>
-
             <div className="flex items-center gap-8">
               <NavLink
                 to="/favorites"
@@ -155,14 +149,15 @@ const Navbar = memo(() => {
                   <span className="sr-only md:not-sr-only">Logga in</span>
                 </NavLink>
               )}
-              <NavLink
-                to="/cart"
-                className={navLinkClass}
+              <button
+                className={navLinkClass({ isActive: false })}
+                aria-label="Varukorg"
+                onClick={onCartClick}
+                type="button"
               >
                 <CartIcon className="w-6 h-6 mr-2" />
                 <span className="sr-only md:not-sr-only">Varukorg</span>
-                {/* Cart counter would go here */}
-              </NavLink>
+              </button>
             </div>
           </div>
         </nav>

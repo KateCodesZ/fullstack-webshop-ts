@@ -7,13 +7,20 @@ interface MenuProps {
 
 const Menu = ({ isOpen, setIsOpen }: MenuProps) => {
   useEffect(() => {
+    let originalOverflow = '';
+    let originalPaddingRight = '';
     if (isOpen) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
+      originalOverflow = document.body.style.overflow;
+      originalPaddingRight = document.body.style.paddingRight;
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = 'hidden';
+      if (scrollbarWidth > 0) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
     }
     return () => {
-      document.body.classList.remove('overflow-hidden');
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
     };
   }, [isOpen]);
 
@@ -34,7 +41,7 @@ const Menu = ({ isOpen, setIsOpen }: MenuProps) => {
         } md:w-[350px]`}
       >
         <div className="border-b border-gray-200 pb-4 mb-5 flex justify-between items-center">
-          <h1 className="text-2xl font-bold mb-2 md:text-3xl">MENY</h1>
+          <h1 className="text-2xl font-bold mb-2 md:text-3xl">Menu</h1>
           <button
             className="border border-gray-800 px-4 py-2 text-base transition-colors hover:bg-gray-100"
             onClick={() => setIsOpen(false)}

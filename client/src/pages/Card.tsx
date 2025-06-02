@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Button from '../components/Button';
 import PageHeading from '../components/PageHeading';
 import ProductPrice from '../components/ProductPrice';
+import { useCart } from '../hooks/useCart';
 
 interface Product {
   id: number;
@@ -29,6 +30,7 @@ export default function ProductCard() {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { addToCart } = useCart();
 
   useEffect(() => {
     async function fetchProductAndCategory() {
@@ -122,7 +124,23 @@ export default function ProductCard() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <Button className="flex-1" type="button">
+                <Button
+                  className="flex-1"
+                  type="button"
+                  onClick={() => {
+                    if (product) {
+                      addToCart(
+                        {
+                          id: product.id,
+                          name: product.name,
+                          price: product.is_sale && product.discount_price ? product.discount_price : product.price,
+                          image: product.image,
+                        },
+                        quantity
+                      );
+                    }
+                  }}
+                >
                   Lägg i varukorg
                 </Button>
                 <button className="border border-gray-600 text-gray-800 font-medium py-4 px-8 rounded-lg flex items-center justify-center gap-2 transition-colors duration-300 hover:bg-gray-50 flex-1">
