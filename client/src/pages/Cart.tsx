@@ -1,8 +1,11 @@
 import { useCart } from "../hooks/useCart";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const { cart, updateQuantity, removeFromCart } = useCart();
+  const navigate = useNavigate();
   const shippingCost = 29;  const subtotal = Math.round(cart.reduce(
     (sum, product) => sum + product.price * product.quantity,
     0
@@ -33,7 +36,8 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
     }
     return () => {
       document.body.style.overflow = originalOverflow;
-      document.body.style.paddingRight = originalPaddingRight;    };
+      document.body.style.paddingRight = originalPaddingRight;
+    };
   }, [isOpen]);
   return (
     <>
@@ -43,7 +47,7 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={onClose}
-      />      {/* Cart panel with slide-in animation */}
+      /> {/* Cart panel with slide-in animation */}
       <aside
         className={`fixed top-0 right-0 z-[999] h-screen w-full bg-floralwhite shadow-lg transition-transform duration-400 p-5 overflow-y-auto ${
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -61,7 +65,8 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
             </button>
           </div>
 
-          {/* Product list */}          <div className="flex-1 overflow-y-auto pb-4">
+          {/* Product list */}
+          <div className="flex-1 overflow-y-auto pb-4">
             {cart.length === 0 ? (
               <div className="text-center text-gray-700 py-16 text-xl flex flex-col items-center">
                 <svg
@@ -213,15 +218,21 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
               Inkl. moms
             </p>
 
-            <button className="w-full mt-6 bg-gray-800 hover:bg-gray-900 text-white py-3 px-4 rounded-md font-medium">
-              GÅ TILL KASSAN
-            </button>
+            <Button
+              className="w-full mt-6 font-medium"
+              onClick={() => {
+                onClose();
+                navigate("/checkout");
+              }}
+            >
+              Gå till kassan
+            </Button>
 
             <button
               onClick={onClose}
               className="w-full mt-3 border border-gray-300 hover:bg-gray-50 text-gray-800 py-3 px-4 rounded-md font-medium"
             >
-              FORTSÄTT HANDLA
+              Fortsätt handla
             </button>
           </div>
         </div>
