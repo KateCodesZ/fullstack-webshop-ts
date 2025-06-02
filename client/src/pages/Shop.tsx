@@ -39,6 +39,8 @@ export default function Shop() {
   const [showSort, setShowSort] = useState(false); // State for mobile sort modal
   const [sortOption, setSortOption] = useState(''); // State for sorting
   const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const showNew = params.get('new') === '1';
 
   // Fetch products, categories, and colors
   useEffect(() => {
@@ -77,6 +79,10 @@ export default function Shop() {
       return matchesCategory && matchesColor && matchesPrice;
     });
 
+    if (showNew) {
+      result = result.filter(product => product.is_new);
+    }
+
     // Apply filter for 'new' and 'sale' sort options
     if (sortOption === 'new') {
       result = result.filter(product => product.is_new);
@@ -86,13 +92,13 @@ export default function Shop() {
 
     // Sort
     if (sortOption === 'price-low') {
-      result = [...result].sort((a, b) => (a.effective_price ?? a.price) - (b.effective_price ?? b.price));
+      result = [...result].sort((a, b) => (a.effective_price ?? a.price) - (b.effective_price ?? a.price));
     } else if (sortOption === 'price-high') {
       result = [...result].sort((a, b) => (b.effective_price ?? b.price) - (a.effective_price ?? a.price));
     }
 
     return result;
-  }, [products, selectedCategories, selectedColors, priceRange, sortOption]);
+  }, [products, selectedCategories, selectedColors, priceRange, sortOption, showNew]);
 
   // Clear filters
   const clearFilters = () => {
@@ -111,7 +117,6 @@ export default function Shop() {
   }, [showFilters, showSort]);
 
   // Find the selected category name for heading and breadcrumbs
-  const params = new URLSearchParams(location.search);
   const categoryName = params.get('category');
   const selectedCategoryObj = categoryName && categories.length > 0
     ? categories.find(c => c.name.toLowerCase() === categoryName.toLowerCase())
@@ -133,27 +138,34 @@ export default function Shop() {
               </button>
             </div>
 
-            {/* Categories with Dropdown */}
+            {/* Categories with radio inputs (single select) */}
             <div className="mb-8">
-              <details className="group">
+              <details className="group" open>
                 <summary className="text-xl font-semibold text-marianblue mb-4 cursor-pointer flex items-center select-none">
                   Kategori
                   <svg className="ml-2 w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                 </summary>
-                <div className="space-y-2 mt-2">
+                <div className="flex flex-col gap-2 mt-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sidebar-category"
+                      value="all"
+                      checked={selectedCategories.length === 0}
+                      onChange={() => setSelectedCategories([])}
+                      className="accent-marianblue"
+                    />
+                    Alla
+                  </label>
                   {categories.map(category => (
-                    <label key={category.id} className="flex items-center text-sm text-gray-700">
+                    <label key={category.id} className="flex items-center gap-2 cursor-pointer">
                       <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(category.id)}
-                        onChange={e => {
-                          setSelectedCategories(prev =>
-                            e.target.checked
-                              ? [...prev, category.id]
-                              : prev.filter(id => id !== category.id)
-                          );
-                        }}
-                        className="mr-2 w-4 h-4"
+                        type="radio"
+                        name="sidebar-category"
+                        value={category.id}
+                        checked={selectedCategories.length === 1 && selectedCategories[0] === category.id}
+                        onChange={() => setSelectedCategories([category.id])}
+                        className="accent-marianblue"
                       />
                       {category.name}
                     </label>
@@ -228,6 +240,73 @@ export default function Shop() {
                       <span className="text-gray-700 text-md">{color.name}</span>
                     </label>
                   ))}
+                </div>
+              </details>
+            </div>
+
+            {/* Sortering Dropdown (as radio inputs) */}
+            <div className="mb-8">
+              <details className="group" open>
+                <summary className="text-xl font-semibold text-marianblue mb-4 cursor-pointer flex items-center select-none">
+                  Sortering
+                  <svg className="ml-2 w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </summary>
+                <div className="flex flex-col gap-2 mt-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sidebar-sort"
+                      value=""
+                      checked={sortOption === ''}
+                      onChange={() => setSortOption('')}
+                      className="accent-marianblue"
+                    />
+                    Standard
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sidebar-sort"
+                      value="new"
+                      checked={sortOption === 'new'}
+                      onChange={() => setSortOption('new')}
+                      className="accent-marianblue"
+                    />
+                    Nyinkommet
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sidebar-sort"
+                      value="price-high"
+                      checked={sortOption === 'price-high'}
+                      onChange={() => setSortOption('price-high')}
+                      className="accent-marianblue"
+                    />
+                    Högsta pris
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sidebar-sort"
+                      value="price-low"
+                      checked={sortOption === 'price-low'}
+                      onChange={() => setSortOption('price-low')}
+                      className="accent-marianblue"
+                    />
+                    Lägsta pris
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="sidebar-sort"
+                      value="sale"
+                      checked={sortOption === 'sale'}
+                      onChange={() => setSortOption('sale')}
+                      className="accent-marianblue"
+                    />
+                    Sänkt pris
+                  </label>
                 </div>
               </details>
             </div>
