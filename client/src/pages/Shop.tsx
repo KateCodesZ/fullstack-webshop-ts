@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ProductPrice from '../components/ProductPrice';
 import PageHeading from '../components/PageHeading';
 
@@ -38,6 +38,7 @@ export default function Shop() {
   const [showFilters, setShowFilters] = useState(false); // State for mobile filter visibility
   const [showSort, setShowSort] = useState(false); // State for mobile sort modal
   const [sortOption, setSortOption] = useState(''); // State for sorting
+  const location = useLocation();
 
   // Fetch products, categories, and colors
   useEffect(() => {
@@ -45,6 +46,22 @@ export default function Shop() {
     axios.get<Category[]>('/api/products/categories').then(res => setCategories(res.data));
     axios.get<Color[]>('/api/products/colors').then(res => setColors(res.data));
   }, []);
+
+  // Set selectedCategories from URL on mount and when location.search changes
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const categoryName = params.get('category');
+    if (categoryName && categories.length > 0) {
+      const found = categories.find(
+        c => c.name.toLowerCase() === categoryName.toLowerCase()
+      );
+      if (found) {
+        setSelectedCategories([found.id]);
+      }
+    } else if (!categoryName) {
+      setSelectedCategories([]);
+    }
+  }, [location.search, categories]);
 
   // Filtered products
   const filteredProducts = useMemo(() => {
@@ -92,6 +109,13 @@ export default function Shop() {
     }
     return () => document.body.classList.remove('modal-open');
   }, [showFilters, showSort]);
+
+  // Find the selected category name for heading and breadcrumbs
+  const params = new URLSearchParams(location.search);
+  const categoryName = params.get('category');
+  const selectedCategoryObj = categoryName && categories.length > 0
+    ? categories.find(c => c.name.toLowerCase() === categoryName.toLowerCase())
+    : null;
 
   return (
     <div className="py-4">
@@ -213,7 +237,15 @@ export default function Shop() {
           <div className="flex-1">
             {/* Header */}
             <div className="mb-6">
-              <PageHeading title="Alla produkter" breadcrumbs={[{ name: 'Produkter', path: '/shop' }]} />
+              <PageHeading
+                title={selectedCategoryObj ? selectedCategoryObj.name : "Alla produkter"}
+                breadcrumbs={selectedCategoryObj ? [
+                  { name: 'Produkter', path: '/shop' },
+                  { name: selectedCategoryObj.name, path: `/shop?category=${encodeURIComponent(selectedCategoryObj.name.toLowerCase())}` }
+                ] : [
+                  { name: 'Produkter', path: '/shop' }
+                ]}
+              />
             </div>
 
             {/* Mobile/Tablet Filter and Sort Bar */}

@@ -31,7 +31,8 @@ const Categories: React.FC = () => {
       <div className="overflow-x-auto scrollbar-hide">
         <div className="grid grid-cols-5 gap-4 min-w-max px-8 my-6 mb-10">
           {categories.map((category) => (
-            <div
+            <Link
+              to={`/shop?category=${encodeURIComponent(category.name.toLowerCase())}`}
               key={category.name}
               className="flex flex-col items-center text-center cursor-pointer"
             >
@@ -43,7 +44,7 @@ const Categories: React.FC = () => {
               <span className="mt-2 text-xs text-gray-600 md:text-base font-medium">
                 {category.name}
               </span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

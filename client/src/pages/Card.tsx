@@ -68,7 +68,7 @@ export default function ProductCard() {
               title=""
               breadcrumbs={[
                 { name: "Shop", path: "/shop" },
-                ...(categoryName ? [{ name: categoryName, path: `/shop?category=${product?.category_id}` }] : []),
+                ...(categoryName ? [{ name: categoryName, path: `/shop?category=${encodeURIComponent(categoryName.toLowerCase())}` }] : []),
                 ...(product ? [{ name: product.name, path: `/card/${product.id}` }] : []),
               ]}
             />
