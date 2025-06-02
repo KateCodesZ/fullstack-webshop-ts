@@ -6,6 +6,7 @@ import Shop from './pages/Shop';
 import Footer from './layout/Footer';
 import Card from './pages/Card';
 import Cart from './pages/Cart';
+import MinaSidor from './pages/MyPages';
 import { useState } from 'react';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/card/:id" element={<Card />} />
+        <Route path="/minasidor" element={<MinaSidor />} />
       </Routes>
       <Footer />
     </div>

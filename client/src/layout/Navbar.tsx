@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { memo, useMemo, useState } from 'react';
 import MenuIcon from '../assets/icons/Menu.svg?react';
 import HeartIcon from '../assets/icons/Heart.svg?react';
@@ -14,8 +14,7 @@ import { useCart } from '../hooks/useCart';
 // Using React 19+ compiler optimizations (when available)
 const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const { cart } = useCart();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -68,14 +67,13 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                 <HeartIcon className="w-7 h-7 p-1" />
               </NavLink>
               {user ? (
-                <button
-                  onClick={() => { logout(); navigate('/'); }}
-                  className={navLinkClass({ isActive: false })}
-                  aria-label="Logga ut"
+                <NavLink
+                  to="/minasidor"
+                  aria-label="Mina sidor"
+                  className={navLinkClass}
                 >
                   <UserIcon className="w-7 h-7 p-1" />
-                  <span className="sr-only md:not-sr-only">Logga ut</span>
-                </button>
+                </NavLink>
               ) : (
                 <NavLink
                   to="/auth"
@@ -83,7 +81,6 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                   className={navLinkClass}
                 >
                   <UserIcon className="w-7 h-7 p-1" />
-                  <span className="sr-only md:not-sr-only">Logga in</span>
                 </NavLink>
               )}
               <button
@@ -140,18 +137,19 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                 <span className="sr-only md:not-sr-only">Favoriter</span>
               </NavLink>
               {user ? (
-                <button
-                  onClick={() => { logout(); navigate('/'); }}
-                  className={navLinkClass({ isActive: false })}
-                  aria-label="Logga ut"
+                <NavLink
+                  to="/minasidor"
+                  className={navLinkClass}
+                  aria-label="Mina sidor"
                 >
                   <UserIcon className="w-6 h-6 mr-2" />
-                  <span className="sr-only md:not-sr-only">Logga ut</span>
-                </button>
+                  <span className="sr-only md:not-sr-only">Mina sidor</span>
+                </NavLink>
               ) : (
                 <NavLink
                   to="/auth"
                   className={navLinkClass}
+                  aria-label="Logga in"
                 >
                   <UserIcon className="w-6 h-6 mr-2" />
                   <span className="sr-only md:not-sr-only">Logga in</span>

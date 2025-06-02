@@ -79,8 +79,8 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
-      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+    <div className="flex justify-center items-top bg-marianblue p-8">
+      <div className="w-full max-w-md bg-white rounded-md shadow-lg p-8">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
           {isRegistering ? 'Bli medlem' : 'Logga in'}
         </h1>
