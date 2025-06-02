@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface Product {
   id: number;
@@ -50,7 +51,11 @@ export default function NewItems() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 px-4 mb-12 my-10">
         {filteredItems.map((product) => (
-          <div key={product.id} className="flex flex-col">
+          <Link
+            to={`/card/${product.id}`}
+            key={product.id}
+            className="flex flex-col"
+          >
             <div className="relative w-full pb-[125%]">
               <img
                 className="absolute inset-0 w-full h-full object-cover"
@@ -70,7 +75,7 @@ export default function NewItems() {
                 {Number(product.price)} KR
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
