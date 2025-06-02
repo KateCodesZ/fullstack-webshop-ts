@@ -3,11 +3,19 @@ import { useEffect } from "react";
 
 export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const { cart, updateQuantity, removeFromCart } = useCart();
-  const shippingCost = 29;
-  const subtotal = cart.reduce(
+  const shippingCost = 29;  const subtotal = Math.round(cart.reduce(
     (sum, product) => sum + product.price * product.quantity,
     0
-  );
+  ));
+  const totalSavings = Math.round(cart.reduce(
+    (sum, product) => {
+      if (product.isOnSale && product.originalPrice) {
+        return sum + (product.originalPrice - product.price) * product.quantity;
+      }
+      return sum;
+    },
+    0
+  ));
   const total = subtotal + shippingCost;
 
   // Lock background scroll when cart is open and compensate for scrollbar width
@@ -35,55 +43,68 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={onClose}
-      />
-
-      {/* Cart panel with slide-in animation */}
+      />      {/* Cart panel with slide-in animation */}
       <aside
-        className={`fixed top-0 right-0 z-[999] h-screen w-[85%] bg-floralwhite shadow-lg transition-transform duration-400 p-5 overflow-y-auto ${
+        className={`fixed top-0 right-0 z-[999] h-screen w-full bg-floralwhite shadow-lg transition-transform duration-400 p-5 overflow-y-auto ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } md:w-96 lg:w-[28rem]`}
+        } min-[376px]:w-[85%] md:w-96 lg:w-[28rem]`}
         style={{ maxWidth: "100vw" }}
-      >        <div className="w-full h-full flex flex-col">
+      ><div className="w-full h-full flex flex-col">
           {/* Cart header */}
-          <div className="border-b border-gray-200 pb-4 mb-5 flex justify-between items-center">
-            <h1 className="text-2xl font-bold mb-2 md:text-3xl">Varukorg</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold mb-2 md:text-3xl text-marianblue">Varukorg</h1>
             <button
-              className="border border-gray-800 px-4 py-2 text-base transition-colors hover:bg-gray-100"
+              className="border border-marianblue text-gray-700 px-4 py-2 text-base transition-colors hover:bg-gray-100"
               onClick={onClose}
             >
               Stäng
             </button>
           </div>
 
-          {/* Product list */}
-          <div className="flex-1 overflow-y-auto py-4">
+          {/* Product list */}          <div className="flex-1 overflow-y-auto pb-4">
             {cart.length === 0 ? (
-              <div className="text-center text-gray-500 py-16 text-xl">
+              <div className="text-center text-gray-700 py-16 text-xl flex flex-col items-center">
+                <svg
+                  width="64"
+                  height="64"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="mb-4 text-marianblue"
+                >
+                  <path d="M6.78381 9.6H17.2162C18.1041 9.6 18.7121 9.60118 19.1722 9.66086C19.6152 9.71833 19.839 9.82144 19.9994 9.96876C20.1598 10.1161 20.2816 10.3303 20.3766 10.7668C20.4753 11.2201 20.5282 11.8258 20.6038 12.7105L21.2167 19.8808C21.2616 20.4061 21.2886 20.7378 21.2758 20.9809C21.264 21.2067 21.221 21.2537 21.2055 21.2705C21.1901 21.2874 21.1469 21.3342 20.9229 21.3652C20.6818 21.3986 20.349 21.4 19.8218 21.4H4.17823C3.65102 21.4 3.31816 21.3986 3.07706 21.3652C2.85309 21.3342 2.80994 21.2874 2.79448 21.2705C2.77901 21.2537 2.73605 21.2067 2.72419 20.9809C2.71143 20.7378 2.73842 20.4061 2.78332 19.8808L3.39617 12.7105C3.47178 11.8258 3.52474 11.2201 3.62338 10.7668C3.71837 10.3303 3.84016 10.1161 4.0006 9.96876C4.16105 9.82144 4.38484 9.71833 4.82784 9.66086C5.28789 9.60118 5.89588 9.6 6.78381 9.6Z" stroke="currentColor" strokeOpacity="0.95" strokeWidth="1.2"/>
+                  <path d="M8 12L8 8C8 5.79086 9.79086 4 12 4V4C14.2091 4 16 5.79086 16 8L16 12" stroke="currentColor" strokeOpacity="0.95" strokeWidth="1.2" strokeLinecap="round"/>
+                </svg>
                 Din varukorg är tom.
               </div>
             ) : (
               cart.map((product) => (
                 <div
                   key={product.id}
-                  className="flex flex-col md:flex-row py-6 border-b border-gray-200"                >
+                  className="flex flex-row gap-2 py-6 border-b border-gray-200"
+                >
                   {/* Product image */}
-                  <div className="flex-shrink-0 w-24 h-24 bg-gray-200 rounded-md overflow-hidden">
+                  <div className="flex-shrink-0 w-24 h-32 bg-gray-200 overflow-hidden rounded-md relative">
                     <img
                       className="w-full h-full object-cover"
                       src={product.image}
                       alt={product.name}
                     />
+                    {product.isOnSale && product.price < product.originalPrice && (
+                      <div className="absolute top-1 left-1 bg-mahogany text-white text-xs px-1 py-0.5 rounded">
+                        SALE
+                      </div>
+                    )}
                   </div>
-
                   {/* Product info */}
-                  <div className="flex-1 md:ml-4 mt-4 md:mt-0">
-                    <div className="flex justify-between">
+                  <div className="flex-1 ml-1 mt-0">
+                    <div className="flex justify-between items-start">
                       <h3 className="text-lg font-medium text-gray-800">
                         {product.name}
                       </h3>
                       <button
                         onClick={() => removeFromCart(product.id)}
-                        className="text-gray-400 hover:text-gray-600"
+                        className="text-gray-400 hover:text-gray-600 flex-shrink-0"
                       >
                         <svg
                           width={20}
@@ -100,15 +121,13 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                       </button>
                     </div>
 
-                    <p className="text-gray-600 mt-1">{product.price} KR</p>
-
                     <div className="flex items-center justify-between mt-4">
                       <div className="flex items-center border border-gray-300 rounded">
                         <button
                           onClick={() =>
                             updateQuantity(product.id, product.quantity - 1)
                           }
-                          className="px-3 py-1 hover:bg-gray-100"
+                          className="px-2 py-1 hover:bg-gray-100"
                           disabled={product.quantity <= 1}
                         >
                           <svg
@@ -126,12 +145,12 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                             />
                           </svg>
                         </button>
-                        <span className="px-3">{product.quantity}</span>
+                        <span className="px-1">{product.quantity}</span>
                         <button
                           onClick={() =>
                             updateQuantity(product.id, product.quantity + 1)
                           }
-                          className="px-3 py-1 hover:bg-gray-100"
+                          className="px-2 py-1 hover:bg-gray-100"
                         >
                           <svg
                             width={16}
@@ -149,33 +168,50 @@ export default function Cart({ isOpen, onClose }: { isOpen: boolean, onClose: ()
                           </svg>
                         </button>
                       </div>
-                      <p className="text-lg font-medium">
-                        {product.price * product.quantity} KR
-                      </p>
+                      {product.isOnSale && product.price < product.originalPrice ? (
+                        <div className="text-md font-medium">
+                          <div className="flex flex-col md:flex-row items-center gap-2">
+                            <span className="text-mahogany font-bold">{Math.round(product.price * product.quantity)} KR</span>
+                            <span className="line-through text-gray-400 text-sm">{Math.round(product.originalPrice * product.quantity)} KR</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-md font-medium">
+                          {Math.round(product.price * product.quantity)} KR
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
-              ))            )}
+              ))
+            )}
           </div>
 
           {/* Order summary */}
-          <div className="pt-4 border-t border-gray-200">            <div className="space-y-3">
+          <div className="pt-4 border-t border-gray-200">
+            <div className="space-y-3">
+             {totalSavings > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-mahogany">Du sparar</span>
+                  <span className="font-medium text-mahogany">-{totalSavings} KR</span>
+                </div>
+              )}
               <div className="flex justify-between">
                 <span className="text-gray-600">Delsumma</span>
                 <span className="font-medium">{subtotal} KR</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Fraktavgifter</span>
+                <span className="text-gray-600">Frakt</span>
                 <span className="font-medium">{shippingCost} KR</span>
               </div>
-              <div className="flex justify-between pt-3">
+              <div className="flex justify-between pt-2">
                 <span className="text-lg font-semibold">TOTALT</span>
                 <span className="text-lg font-semibold">{total} KR</span>
               </div>
-              <p className="text-sm text-gray-600 text-center py-2">
-                Inkl. moms
-              </p>
             </div>
+            <p className="text-sm text-gray-600 text-start">
+              Inkl. moms
+            </p>
 
             <button className="w-full mt-6 bg-gray-800 hover:bg-gray-900 text-white py-3 px-4 rounded-md font-medium">
               GÅ TILL KASSAN

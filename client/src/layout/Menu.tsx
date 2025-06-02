@@ -41,9 +41,9 @@ const Menu = ({ isOpen, setIsOpen }: MenuProps) => {
         } md:w-[350px]`}
       >
         <div className="border-b border-gray-200 pb-4 mb-5 flex justify-between items-center">
-          <h1 className="text-2xl font-bold mb-2 md:text-3xl">Menu</h1>
+          <h1 className="text-2xl font-bold mb-2 md:text-3xl text-marianblue">Menu</h1>
           <button
-            className="border border-gray-800 px-4 py-2 text-base transition-colors hover:bg-gray-100"
+            className="border border-marianblue text-gray-700 px-4 py-2 text-base transition-colors hover:bg-gray-100"
             onClick={() => setIsOpen(false)}
           >
             Stäng

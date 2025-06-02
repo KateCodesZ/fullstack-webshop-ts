@@ -7,6 +7,8 @@ type CartProduct = {
   price: number;
   image: string;
   quantity: number;
+  originalPrice: number;
+  isOnSale: boolean;
 };
 
 type CartContextType = {
@@ -25,11 +27,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<CartProduct[]>([]);
 
   const addToCart = (product: Omit<CartProduct, "quantity">, quantity = 1) => {
+    console.log("[CartContext] addToCart:", product, "quantity:", quantity);
     setCart((prev) => {
       const existing = prev.find((p) => p.id === product.id);
       if (existing) {
         return prev.map((p) =>
-          p.id === product.id ? { ...p, quantity: p.quantity + quantity } : p
+          p.id === product.id
+            ? { ...p, ...product, quantity: p.quantity + quantity }
+            : p
         );
       }
       return [...prev, { ...product, quantity }];

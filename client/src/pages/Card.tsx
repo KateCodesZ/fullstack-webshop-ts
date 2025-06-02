@@ -123,21 +123,22 @@ export default function ProductCard() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <Button
+              <div className="flex flex-col sm:flex-row gap-4 mt-8">                <Button
                   className="flex-1"
                   type="button"
                   onClick={() => {
                     if (product) {
-                      addToCart(
-                        {
-                          id: product.id,
-                          name: product.name,
-                          price: product.is_sale && product.discount_price ? product.discount_price : product.price,
-                          image: product.image,
-                        },
-                        quantity
-                      );
+                      const discount = Number(product.discount_price);
+                      const price = Number(product.price);
+                      const isProductOnSale = !!(product.is_sale && !isNaN(discount) && discount < price);
+                      addToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: isProductOnSale ? discount : price,
+                        image: product.image,
+                        originalPrice: price,
+                        isOnSale: isProductOnSale,
+                      }, quantity);
                     }
                   }}
                 >

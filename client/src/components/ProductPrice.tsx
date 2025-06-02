@@ -10,12 +10,11 @@ const ProductPrice: React.FC<ProductPriceProps> = ({
   isSale = false,
   discountPrice,
   salePercent = 50,
-}) => {
-  // Prefer discountPrice if provided and less than price
+}) => {  // Prefer discountPrice if provided and less than price
   if (isSale && typeof discountPrice === 'number' && discountPrice < price) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-mahogany font-bold">{discountPrice} KR</span>
+        <span className="text-mahogany font-bold">{Math.round(discountPrice)} KR</span>
         <span className="line-through text-gray-400">{Number(price)} KR</span>
       </div>
     );
