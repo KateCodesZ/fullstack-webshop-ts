@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import ProductPrice from './ProductPrice';
 
 interface Product {
@@ -51,7 +52,11 @@ export default function SaleItems() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 px-4 mb-12 my-10">
         {filteredItems.map((product) => (
-          <div key={product.id} className="flex flex-col">
+          <Link
+            to={`/card/${product.id}`}
+            key={product.id}
+            className="flex flex-col"
+          >
             <div className="relative w-full pb-[125%]">
               <img
                 className="absolute inset-0 w-full h-full object-cover"
@@ -69,7 +74,7 @@ export default function SaleItems() {
               </p>
               <ProductPrice price={parseFloat(product.price)} isSale={product.is_sale} discountPrice={product.discount_price} />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
