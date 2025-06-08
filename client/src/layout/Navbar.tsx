@@ -6,10 +6,10 @@ import UserIcon from '../assets/icons/User.svg?react';
 import CartIcon from '../assets/icons/Cart.svg?react';
 import Logo from '../assets/icons/Logo.svg?react';
 import Logo2 from '../assets/icons/Logo2.svg?react';
-import SearchIcon from '../assets/icons/Search.svg?react';
 import Menu from './Menu';
 import { useAuth } from '../context/useAuth';
 import { useCart } from '../hooks/useCart';
+import SearchBar from '../components/SearchBar';
 
 // Using React 19+ compiler optimizations (when available)
 const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
@@ -33,11 +33,9 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
       <header
         className="max-w-screen xl:px-10 mx-auto sticky top-0 z-50 bg-white border-b border-gray-300 supports-[backdrop-filter]:backdrop-blur-lg"
         role="banner"
-      >
-        <nav aria-label="Primary Navigation">
+      >        <nav aria-label="Primary Navigation">
           {/* Mobile Navigation */}
-          <div className="flex justify-between items-center px-3 py-2 lg:hidden">
-            <div className="flex items-center gap-4">
+          <div className="flex justify-between items-center px-4 py-2 lg:hidden"><div className="flex items-center gap-4">
               {/* Button to open the menu */}
               <button
                 aria-label="Öppna menu"
@@ -48,24 +46,17 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                 <MenuIcon className="w-7 h-7 p-1" />
               </button>
               <NavLink
-                to="/search"
-                aria-label="Sök"
-                className={navLinkClass}
-              >
-                <SearchIcon className="w-7 h-7 p-1" />
-              </NavLink>
-            </div>
-            <Link to="/" aria-label="Hem">
-              <Logo2 className="h-10 w-auto text-marianblue fill-marianblue" />
-            </Link>
-            <div className="flex items-center gap-2">
-              <NavLink
                 to="/favorites"
                 aria-label="Favoriter"
                 className={navLinkClass}
               >
                 <HeartIcon className="w-7 h-7 p-1" />
               </NavLink>
+            </div>
+            <Link to="/" aria-label="Hem">
+              <Logo2 className="h-10 w-auto text-marianblue fill-marianblue" />
+            </Link>
+            <div className="flex items-center gap-2">
               {user ? (
                 <NavLink
                   to="/minasidor"
@@ -99,7 +90,7 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
             </div>
           </div>
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-between container mx-auto h-16">
+          <div className="hidden lg:flex items-center justify-between container mx-auto h-16 px-4">
             <div className="flex items-center gap-8">
               {/* Button menu */}
               <button
@@ -108,18 +99,13 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                 onClick={() => setMenuOpen(true)}
                 type="button"
               >
-                <MenuIcon className="w-6 h-6 mr-2" />
+                <MenuIcon className="w-7 h-7 mr-2" />
                 <span className="cursor-pointer sr-only md:not-sr-only">Menu</span>
               </button>
-              <form role="search" className="relative">
-                <input
-                  type="search"
-                  placeholder="Sök..."
-                  className="pl-10 pr-4 py-2 w-64 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-mahogany/50 focus:border-mahogany placeholder-gray-400 text-gray-900 bg-transparent"
-                  aria-label="Search input"
-                />
-                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-              </form>
+              {/* Use DRY SearchBar component */}
+              <div className="relative">
+                <SearchBar />
+              </div>
             </div>
             <Link
               to="/"
@@ -133,7 +119,7 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                 to="/favorites"
                 className={navLinkClass}
               >
-                <HeartIcon className="w-6 h-6 mr-2" />
+                <HeartIcon className="w-7 h-7 mr-2" />
                 <span className="sr-only md:not-sr-only">Favoriter</span>
               </NavLink>
               {user ? (
@@ -142,7 +128,7 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                   className={navLinkClass}
                   aria-label="Mina sidor"
                 >
-                  <UserIcon className="w-6 h-6 mr-2" />
+                  <UserIcon className="w-7 h-7 mr-2" />
                   <span className="sr-only md:not-sr-only">Mina sidor</span>
                 </NavLink>
               ) : (
@@ -151,7 +137,7 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                   className={navLinkClass}
                   aria-label="Logga in"
                 >
-                  <UserIcon className="w-6 h-6 mr-2" />
+                  <UserIcon className="w-7 h-7 mr-2" />
                   <span className="sr-only md:not-sr-only">Logga in</span>
                 </NavLink>
               )}
@@ -162,7 +148,7 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
                 type="button"
               >
                 <span className="relative">
-                  <CartIcon className="w-6 h-6 mr-2" />
+                  <CartIcon className="w-7 h-7 mr-2" />
                   {cartCount > 0 && (
                     <span className="absolute -top-2 -right-0.5 bg-marianblue text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold border-2 border-white">
                       {cartCount}
@@ -175,6 +161,12 @@ const Navbar = memo(({ onCartClick }: { onCartClick: () => void }) => {
           </div>
         </nav>
       </header>
+      {/* Mobile Search Bar - always visible below navbar */}
+      <div className="lg:hidden">
+        <div className="px-4 pt-2">
+          <SearchBar fullWidth={true} />
+        </div>
+      </div>
     </>
   );
 });
