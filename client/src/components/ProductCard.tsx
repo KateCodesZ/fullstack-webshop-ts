@@ -44,17 +44,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {showBadges && (
           <>
             {product.is_sale && (
-              <div className="absolute top-2 left-2 bg-mahogany text-white text-sm px-2 py-1 rounded">
+              <div className="absolute top-2 left-2 bg-mahogany text-white text-sm px-2 py-1">
                 SALE
               </div>
             )}
             {product.is_new && !product.is_sale && (
-              <div className="absolute top-2 left-2 bg-marianblue text-white text-sm px-2 py-1 rounded">
-                NEW
-              </div>
-            )}
-            {product.is_new && product.is_sale && (
-              <div className="absolute top-2 right-2 bg-marianblue text-white text-sm px-2 py-1 rounded">
+              <div className="absolute top-2 left-2 bg-marianblue text-white text-sm px-2 py-1">
                 NEW
               </div>
             )}
@@ -69,7 +64,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="mt-4 flex flex-col gap-2">
         <p className="text-base font-semibold text-gray-600 truncate group-hover:text-marianblue transition-colors duration-200">
           {product.name}
-        </p>        <ProductPrice
+        </p>
+        <ProductPrice
           price={product.price}
           isSale={product.is_sale}
           discountPrice={product.discount_price ?? undefined}
