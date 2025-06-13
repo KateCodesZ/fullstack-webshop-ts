@@ -49,7 +49,8 @@ export default function SaleItems() {
           <span className="font-montserrat-alt">Sista chansen</span>
         </h2>
         <a href="#" className="text-gray-600 font-medium underline">VISA ALLA</a>
-      </div>      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 px-4 mb-12 my-10">        {filteredItems.map((product) => (
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 px-4 mb-12 my-10">        {filteredItems.map((product) => (
           <ProductCard
             key={product.id}
             product={{

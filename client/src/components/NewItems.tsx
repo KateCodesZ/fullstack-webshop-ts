@@ -49,7 +49,8 @@ export default function NewItems() {
           <span className="font-montserrat-alt">yheter</span>
         </h2>
         <Link to="/shop?new=1" className="text-gray-600 font-medium underline">VISA ALLA</Link>
-      </div>      <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 px-4 mb-12 my-10">
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 px-4 mb-12 my-10">
         {filteredItems.map((product) => (
           <ProductCard
             key={product.id}
