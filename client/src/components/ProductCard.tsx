@@ -31,11 +31,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <Link
       to={`/card/${product.id}`}
       className={`flex flex-col overflow-hidden group ${className}`}
-    >
-      {/* Image container with 4:5 ratio */}
-      <div className="relative w-full pb-[125%]">
+    >      {/* Image container with 4:5 ratio */}
+      <div className="relative w-full pb-[125%] overflow-hidden">
         <img
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
           src={product.image}
           alt={product.name}
           loading="lazy"
