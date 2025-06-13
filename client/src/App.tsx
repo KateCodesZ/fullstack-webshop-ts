@@ -8,6 +8,7 @@ import Footer from './layout/Footer';
 import Card from './pages/Card';
 import Cart from './pages/Cart';
 import MinaSidor from './pages/MyPages';
+import Favorites from './pages/Favorites';
 import ScrollToTop from './components/ScrollToTop';
 import CheckoutPage from './pages/Checkout';
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/card/:id" element={<Card />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/minasidor" element={<MinaSidor />} />
         <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>

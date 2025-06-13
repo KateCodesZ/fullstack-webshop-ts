@@ -31,7 +31,7 @@ const HomePage = () => {
         imageAlt="Martini cocktail glasses with blue stems"
         subtitle="ERBJUDANDE"
         title="Glas 50%*"
-        description="Upptäck vårt breda utbud av glas för vardag, fest och mysiga familjemiddagar!!"
+        description="Upptäck vårt breda utbud av glas för vardag, fest och mysiga familjemiddagar!"
         note="*Gäller t.o.m.  22/12 och kan inte kombineras med andra erbjudanden."
       >
         <Button onClick={handleOfferClick} className="w-full md:w-auto">

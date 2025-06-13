@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
-import ProductPrice from '../components/ProductPrice';
+import { useLocation } from 'react-router-dom';
 import PageHeading from '../components/PageHeading';
+import ProductCard from '../components/ProductCard';
 
 interface Product {
   id: number;
@@ -568,38 +568,14 @@ export default function Shop() {
                 </div>
               </div>
             )}
-
             {/* Product Grid */}
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 md:gap-8">
               {filteredProducts.map(product => (
-                <Link
-                  to={`/card/${product.id}`}
+                <ProductCard
                   key={product.id}
-                  className="flex flex-col overflow-hidden"
-                >
-                  {/* Image container with 4:5 ratio */}
-                  <div className="relative w-full pb-[125%]">
-                    <img
-                      className="absolute inset-0 w-full h-full object-cover"
-                      src={product.image}
-                      alt={product.name}
-                    />
-                    {product.is_sale && (
-                      <div className="absolute top-2 left-2 bg-mahogany text-white text-sm px-2 py-1">
-                        SALE
-                      </div>
-                    )}
-                    {product.is_new && (
-                      <div className="absolute top-2 left-2 bg-marianblue text-white text-sm px-2 py-1">
-                        NEW
-                      </div>
-                    )}
-                  </div>
-                  <div className="mt-4 flex flex-col gap-2">
-                    <p className="text-base font-semibold text-gray-600 truncate">{product.name}</p>
-                    <ProductPrice price={product.price} isSale={product.is_sale} discountPrice={product.discount_price} />
-                  </div>
-                </Link>
+                  product={product}
+                  showBadges={true}
+                />
               ))}
             </div>
           </div>
